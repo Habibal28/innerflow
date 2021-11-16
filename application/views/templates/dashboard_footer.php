@@ -1,5 +1,5 @@
 <footer class="main-footer">
-        <div class="footer-left">
+        <div class="text-center">
           Copyright &copy; 2021 <div class="bullet"></div> Design By <a href="">Innerflow</a>
         </div>
         <div class="footer-right">
@@ -18,15 +18,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="../assets/js/stisla.js"></script>
 
-  <!-- JS Libraies -->
-  <script src="http://maps.google.com/maps/api/js?key=AIzaSyB55Np3_WsZwUQ9NS7DP-HnneleZLYZDNw&amp;sensor=true"></script>
-  <script src="../node_modules/gmaps/gmaps.min.js"></script>
 
   <!-- Template JS File -->
   <script src="<?=base_url()?>/assets/js/scripts.js"></script>
   <script src="<?=base_url()?>./assets/js/custom.js"></script>
 
   <!-- Page Specific JS File -->
-  <script src="<?=base_url()?>/assets/js/page/gmaps-simple.js"></script>
+  <script src="<?=base_url('assets')?>/js/myscript.js"></script>
+
 </body>
 </html>
