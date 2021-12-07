@@ -59,6 +59,7 @@ class Administrator extends CI_Controller {
         ]; 
         $this->load->view('templates/wrapper', $data);        
     }
+
     // menampilkan view event
     public function manageEvent(){
         $query = 'SELECT event.* , user.name FROM event JOIN user ON event.user_id = user.id';
@@ -67,10 +68,64 @@ class Administrator extends CI_Controller {
             'content' 	=> 'administrator/management/manage-event/event',
             'event'     => $this->db->query($query)->result_array()
         ];
-        
         $this->load->view('templates/wrapper', $data);      
- 
     }
+    // tambah event baru
+    public function addEvent(){
+        if(isset($_POST['submit'])){
+            $user =  $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+            $data = [
+                'title' => $this->input->post('title'),
+                'content' => $this->input->post('content'),
+                'category' => $this->input->post('category'),
+                'status' => $this->input->post('status'),
+                'date_created' => time(),
+                'user_id' => $user['id']
+            ];
+            $this->db->insert('event',$data);
+              redirect(base_url('Administrator/manageEvent'),'refresh');
+        }else{
+            $data = [ 
+                'title' 	=> 'Add Event',
+                'content' 	=> 'administrator/management/manage-event/add-event',
+            ];
+            $this->load->view('templates/wrapper', $data);      
+        }
+    }
+    // update Event
+    public function editEvent(){
+        if(isset($_POST['submit'])){
+            $user =  $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+            $id = $this->uri->segment(3);
+            $data = [
+                'title' => $this->input->post('title'),
+                'content' => $this->input->post('content'),
+                'category' => $this->input->post('category'),
+                'status' => $this->input->post('status'),
+                'date_created' => time(),
+                'user_id' => $user['id']
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('event',$data);
+            redirect(base_url('Administrator/manageEvent'),'refresh');
+        }else{
+            $id = $this->uri->segment(3);
+            $data = [ 
+                'title' 	=> 'Edit Event',
+                'content' 	=> 'administrator/management/manage-event/edit-event',
+                'event'     => $this->db->get_where('event',['id' => $id])->result_array()
+            ];
+            $this->load->view('templates/wrapper', $data);      
+        }
+    }
+    // Delete Event 
+    public function deleteEvent(){
+        $id = $this->uri->segment(3);
+        $this->db->where('id',$id);
+        $this->db->delete('event');
+        redirect(base_url('Administrator/manageEvent'),'refresh');
+    }
+
     // menampilkan view edit role
     public function manageRole(){
             $data = [ 
@@ -115,3 +170,4 @@ class Administrator extends CI_Controller {
 
 
 }
+

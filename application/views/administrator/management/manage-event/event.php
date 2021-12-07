@@ -3,7 +3,7 @@
           <div class="section-header">
             <h1>Posts</h1>
             <div class="section-header-button">
-              <a href="features-post-create.html" class="btn btn-primary">Add New</a>
+              <a href="<?=base_url('Administrator/addEvent')?>" class="btn btn-primary">Add New</a>
             </div>
             <div class="section-header-breadcrumb">
               <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
@@ -27,7 +27,7 @@
                           <th>Title</th>
                           <th>Category</th>
                           <th>Author</th>
-                          <th>Created At</th>
+                          <th>Last Changes At</th>
                           <th>Status</th>
                         </tr>
                         <?php foreach($event as $row) : ?>
@@ -36,9 +36,9 @@
                             <div class="table-links">
                               <a href="#">View</a>
                               <div class="bullet"></div>
-                              <a href="#">Edit</a>
+                              <a href="<?=base_url('Administrator/editEvent/').$row['id'] ?>">Edit</a>
                               <div class="bullet"></div>
-                              <a href="#" class="text-danger">Trash</a>
+                              <a href="<?=base_url('Administrator/deleteEvent/').$row['id'] ?>" class="text-danger">Trash</a>
                             </div>
                           </td>
                           <td>
@@ -51,7 +51,8 @@
                           </td>
                           <td><?=date('d F Y',$row['date_created'])?></td>
                           <?= $status = ( $row['status'] == 1 ) ? 'publish':'draft' ?>
-                          <td><div class="badge badge-primary"><?=$status?></div></td>
+                          <?= $color = ( $row['status'] == 1 ) ? 'primary':'danger' ?>
+                          <td><div class="badge badge-<?=$color?>"><?=$status?></div></td>
                         </tr>
                         <?php endforeach; ?>
                       </table>

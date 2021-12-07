@@ -13,7 +13,7 @@ $menu = $this->db->query($query)->result_array();
 <div class="main-sidebar">
   <aside id="sidebar-wrapper">
           <div class="sidebar-brand">
-            <a href="index.html">Innerflow</a>
+            <a href="#">Innerflow</a>
           </div>
           <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">INR</a>

@@ -9,19 +9,21 @@
     </div>
     <div class="section-body">
       <div class="row">
+        <?php foreach($event as $row) : ?>
         <div class="col-12 col-md-6 col-lg-6">
           <div class="card">
             <div class="card-header">
-              <h4>Trabar</h4>
+              <h4><?=$row['title']?></h4>
             </div>
             <div class="card-body">
-              Trabar adalah trading bareng mentor yang handal dan terpercaya Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore beatae nisi exercitationem labore, ipsa deleniti.
+            <?=$row['content']?>
             </div>
             <div class="card-footer text-right">
               <button class="btn btn-primary">view</button>
             </div>
           </div>
         </div>
+        <?php endforeach;?>
         </div>
       </div>
   </section>
