@@ -18,13 +18,57 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="../assets/js/stisla.js"></script>
 
+<!-- JS Libraies -->
+<script src="../node_modules/summernote/dist/summernote-bs4.js"></script>
 
   <!-- Template JS File -->
   <script src="<?=base_url()?>/assets/js/scripts.js"></script>
-  <script src="<?=base_url()?>./assets/js/custom.js"></script>
+  <script src="<?=base_url()?>/assets/js/custom.js"></script>
 
   <!-- Page Specific JS File -->
   <script src="<?=base_url('assets')?>/js/myscript.js"></script>
+  <script>
+    // change role access
+    $('.form-check-input').on('click', function(){
+    const menuId = $(this).data('menu');
+    const roleId = $(this).data('role');
+    $.ajax({
+        url : "<?= base_url('Administrator/ajaxchangeaccess'); ?>",
+        type: 'post',
+        data: {
+            menuId: menuId,
+            roleId: roleId
+        },
+        success : function() {
+                document.location.href ="<?= base_url('Administrator/changeaccess/');?>" + role
+        }
+    });
+});
 
+// modal user detail just checklist radio
+$('.btn-detailUser').on('click',function(){
+  
+  var status = $(this).data('status');
+  var role = $(this).data('role');
+  var id = $(this).data('id');
+  $('#id').val(id);
+  if(status == 1){
+    $('#statusActive').attr("checked","checked");
+    $('#statusNonactive').removeAttr("checked","checked");
+  }else{
+    $('#statusNonactive').attr("checked","checked");
+    $('#statusActive').removeAttr("checked","checked");
+  }
+
+  if(role == 1){
+   $('#roleAdministrator').attr("checked","checked");
+   $('#roleMember').removeAttr("checked","checked");
+  }else{
+    $('#roleMember').attr("checked","checked");
+    $('#roleAdministrator').removeAttr("checked","checked");
+  }
+  
+});
+  </script>
 </body>
 </html>

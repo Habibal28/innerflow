@@ -36,9 +36,8 @@
                                  <tr>
                                  <td><?=$i?></td>
                                  <td class=" text-capitalize"><?=$row['role']?></td>
-                                 <td><button  type="button" name="button" id="changeRole" class="btn btn-primary"
-                                 data-toggle="modal" data-target="#staticBackdrop" data-id="<?=$row['id']?>"
-                                 >Change Role</button></td>
+                                 <td><a href="<?=base_url('Administrator/editRole/'.$row['id'])?>"  type="button" name="button" id="changeRole" class="btn btn-primary"
+                                 >Change Role</a></td>
                                  </tr>
                                  <?php $i++;
                                endforeach; ?>
@@ -72,31 +71,3 @@
         </div>
       </section>
     </div>
-
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Checklist to Give Access </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-
-        <?php foreach($menu as $row) : ?>
-          <div class="form-check mb-2">
-            <input <?=checked(1,$row['id'])?>  class="form-check-input" type="checkbox"  id="defaultCheck1" >
-            <?=$row['menu']?>
-          </div>
-          <?php endforeach;?>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save Change</button>
-      </div>
-    </div>
-  </div>
-</div>

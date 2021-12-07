@@ -20,7 +20,7 @@
                     <h4>Members</h4>
                   </div>
                   <div class="card-body">
-                    10
+                    <?=$members?>
                   </div>
                 </div>
               </div>
@@ -35,7 +35,7 @@
                     <h4>Events</h4>
                   </div>
                   <div class="card-body">
-                    42
+                   <?=$events?>
                   </div>
                 </div>
               </div>

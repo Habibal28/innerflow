@@ -45,7 +45,7 @@
                             <?php if($row['role']==1){
                                     $role = 'Administrator';                         
                               }else {
-                                $role = 'non active';
+                                $role = 'Member';
                               } ?>
 
                             <td><?=$role?></td>
@@ -58,7 +58,11 @@
                               $color = 'danger';
                             } ?>
                             <td><div class="badge badge-<?=$color?>"><?=$status?></div></td>
-                            <td><a href="#" class="btn btn-secondary">Detail</a></td>
+                            <td>
+                              <button type="button" class="btn btn-warning btn-detailUser" data-toggle="modal" data-target="#staticBackdrop"
+                                data-role="<?=$row['role']?>" data-status="<?=$row['is_active']?>" data-id="<?=$row['id']?>"
+                              >Detail</button>
+                            </td>
                             </tr>
                             <?php $i++;
                            endforeach;?>
@@ -91,5 +95,61 @@
                 </div>
                 </div>
             </div>
-            </section>
+          </section>
         </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="<?=base_url('Administrator/manageUser')?>" method="post">
+        <input type="hidden" name="id" id="id" value="">
+      <div class="modal-body">
+        <div class=" form-check">
+          <h5>Role</h5>
+        </div>
+       <div class="form-check 1 pl-5">
+          <input class="form-check-input" name="role" type="radio"  value="1" id="roleAdministrator" >
+          <label class="form-check-label" for="roleAdministrator">
+            Administrator
+          </label>
+        </div>
+         <div class="form-check pl-5">
+          <input class="form-check-input" name="role" type="radio" value="2" id="roleMember"  >
+           <label class="form-check-label" for="roleMember">
+             Member 
+           </label>
+         </div>
+         <div class=" form-check mt-3">
+          <h5>Status</h5>
+        </div>
+       <div class="form-check pl-5">
+          <input class="form-check-input" name="status" type="radio" value="1" id="statusActive" >
+          <label class="form-check-label" for="statusActive">
+            Active
+          </label>
+        </div>
+         <div class="form-check pl-5">
+          <input class="form-check-input" name="status" type="radio" value="0" id="statusNonactive" >
+           <label class="form-check-label" for="statusNonactive" >
+             Non active 
+           </label>
+         </div>
+
+       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" name="submit" class="btn btn-primary">send</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+

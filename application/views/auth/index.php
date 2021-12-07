@@ -21,9 +21,7 @@
                     <div class="invalid-feedback">
                       Please fill in your email
                     </div>
-                    
                   </div>
-
                   <div class="form-group">
                     <div class="d-block">
                     	<label for="password" class="control-label">Password</label>
@@ -38,7 +36,6 @@
                       please fill in your password
                     </div>
                   </div>
-
                   <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
                       Login
@@ -60,7 +57,6 @@
                     </a>
                   </div>
                 </div>
-
               </div>
             </div>
             <div class="mt-5 text-muted text-center">

@@ -12,6 +12,7 @@ crossorigin="anonymous">
 
   <!-- CSS Libraries -->
   <link rel="stylesheet" href="../node_modules/bootstrap-social/bootstrap-social.css">
+  <link rel="stylesheet" href="../node_modules/summernote/dist/summernote-bs4.css">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="<?=base_url()?>/assets/css/style.css">
