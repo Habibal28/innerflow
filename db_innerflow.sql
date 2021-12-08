@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2021 at 02:55 PM
+-- Generation Time: Dec 08, 2021 at 03:21 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.9
 
@@ -85,6 +85,28 @@ CREATE TABLE `list_menu` (
 INSERT INTO `list_menu` (`id`, `menu`) VALUES
 (1, 'admin'),
 (2, 'member');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `materi`
+--
+
+CREATE TABLE `materi` (
+  `id` int(11) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `file` varchar(128) NOT NULL,
+  `category` varchar(128) NOT NULL,
+  `date_created` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `materi`
+--
+
+INSERT INTO `materi` (`id`, `title`, `file`, `category`, `date_created`) VALUES
+(1, 'dasar trading', 'dasartrading.pdf', 'trading', '1638966450'),
+(2, 'cryptocurrency', 'cryptocurrency', 'cryptocurrency', '1638966450');
 
 -- --------------------------------------------------------
 
@@ -184,6 +206,12 @@ ALTER TABLE `list_menu`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `materi`
+--
+ALTER TABLE `materi`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
@@ -221,6 +249,12 @@ ALTER TABLE `event`
 -- AUTO_INCREMENT for table `list_menu`
 --
 ALTER TABLE `list_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `materi`
+--
+ALTER TABLE `materi`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
