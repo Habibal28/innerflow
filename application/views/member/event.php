@@ -15,11 +15,11 @@
             <div class="card-header">
               <h4><?=$row['title']?></h4>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis" >
             <?=$row['content']?>
             </div>
             <div class="card-footer text-right">
-              <button class="btn btn-primary">view</button>
+              <a href="<?=base_url('Administrator/viewEvent/').$row['id']?>" class="btn btn-primary">view</a>
             </div>
           </div>
         </div>

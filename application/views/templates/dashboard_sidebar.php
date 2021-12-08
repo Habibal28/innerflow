@@ -45,11 +45,11 @@ $menu = $this->db->query($query)->result_array();
 
                     <?php foreach ($subMenu as $row1) : ?>
                         
-                        <li class="nav-item">
+                        <div class="nav-item">
                             <a class="nav-link" href="<?=base_url($row1['url'])?>">
                                 <i class="<?=$row1['icon']?>"></i>
                                 <span ><?=$row1['sub_menu']?></span></a>
-                        </li>
+                        </div>
                     <?php endforeach;?>
                     <hr class="sidebar-divider">
 

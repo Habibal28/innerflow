@@ -4,11 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Member extends CI_Controller {
 
     public function index(){        
-        $this->load->view('templates/dashboard_header');
-        $this->load->view('templates/dashboard_navbar');
-        $this->load->view('templates/dashboard_sidebar');
-        $this->load->view('member/index');
-        $this->load->view('templates/dashboard_footer');
+        $data = [
+            'title'   => 'Administrator',
+            'content' => 'Administrator'
+        ];
+        $this->load->view('templates/wrapper',$data);
     }
     public function profile(){
 
@@ -40,5 +40,26 @@ class Member extends CI_Controller {
                     'event'     => $this->db->get('event')->result_array()
         ];
         $this->load->view('templates/wrapper', $data);
+    }
+
+    // menampilkan daftar semua materi
+    public function materi(){
+        $data = [
+            'title'   => 'Materi',
+            'content' => 'member/materi/materi',
+            'materi'  => $this->db->get('materi')->result_array()
+        ];
+        $this->load->view('templates/wrapper',$data);
+    }
+    // menampilkan isi tiap materi
+    public function viewMateri(){
+        $id = $this->uri->segment(3);
+        $materi = $this->db->get_where('materi',['id' => $id])->row_array();
+        $data = [
+            'title'   => 'Preview Materi',
+            'file'    => $materi['file'],
+            'content' => 'member/materi/view-materi'
+        ];
+        $this->load->view('templates/wrapper',$data);
     }
 }

@@ -125,6 +125,16 @@ class Administrator extends CI_Controller {
         $this->db->delete('event');
         redirect(base_url('Administrator/manageEvent'),'refresh');
     }
+    // view event
+    public function viewEvent(){
+        $id = $this->uri->segment(3);
+        $data = [
+            'title'   => 'View Event',
+            'content' => 'administrator/management/manage-event/view-event',
+            'event'   => $this->db->get_where('event',['id' => $id])->row_array()
+        ];
+        $this->load->view('templates/wrapper',$data);
+    }
 
     // menampilkan view edit role
     public function manageRole(){

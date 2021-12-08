@@ -34,7 +34,7 @@
                         <tr>
                           <td class="text-primary"><?=$row['title']?>
                             <div class="table-links">
-                              <a href="#">View</a>
+                              <a href="<?=base_url('Administrator/viewEvent/').$row['id']?>">View</a>
                               <div class="bullet"></div>
                               <a href="<?=base_url('Administrator/editEvent/').$row['id'] ?>">Edit</a>
                               <div class="bullet"></div>
@@ -50,8 +50,8 @@
                             </a>
                           </td>
                           <td><?=date('d F Y',$row['date_created'])?></td>
-                          <?= $status = ( $row['status'] == 1 ) ? 'publish':'draft' ?>
-                          <?= $color = ( $row['status'] == 1 ) ? 'primary':'danger' ?>
+                          <?php $status = ( $row['status'] == 1 ) ? 'publish':'draft' ?>
+                          <?php $color = ( $row['status'] == 1 ) ? 'primary':'danger' ?>
                           <td><div class="badge badge-<?=$color?>"><?=$status?></div></td>
                         </tr>
                         <?php endforeach; ?>
