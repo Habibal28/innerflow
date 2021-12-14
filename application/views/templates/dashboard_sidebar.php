@@ -1,15 +1,3 @@
-<?php 
-$role = $this->session->userdata['role'];
-$query = " SELECT lm.menu, lm.id
-            FROM access_menu as am 
-            JOIN list_menu as lm 
-            ON  lm.id = am.list_menu_id
-            WHERE am.role_id = $role
-            ";
-$menu = $this->db->query($query)->result_array();
-
-?>
-
 <div class="main-sidebar">
   <aside id="sidebar-wrapper">
           <div class="sidebar-brand">

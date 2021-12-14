@@ -34,7 +34,7 @@
                         <tr>
                           <td class="text-primary"><?=$row['title']?>
                             <div class="table-links">
-                              <a href="<?=base_url('Administrator/viewEvent/').$row['id']?>">View</a>
+                              <a href="<?=base_url('Member/viewEvent/').$row['id']?>">View</a>
                               <div class="bullet"></div>
                               <a href="<?=base_url('Administrator/editEvent/').$row['id'] ?>">Edit</a>
                               <div class="bullet"></div>
@@ -46,7 +46,8 @@
                           </td>
                           <td>
                             <a href="#">
-                              <img alt="image" src="../assets/img/avatar/avatar-5.png" class="rounded-circle" width="35" data-toggle="title" title=""> <div class="d-inline-block ml-1"><?=$row['name']?></div>
+                              <img alt="image" src="<?=base_url('assets/img/foto-profile/').$row['image']?>" class="rounded-circle" height="40" width="40" data-toggle="title" title=""> 
+                              <div class="d-inline-block ml-1"><?=$row['name']?></div>
                             </a>
                           </td>
                           <td><?=date('d F Y',$row['date_created'])?></td>

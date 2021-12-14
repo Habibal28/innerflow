@@ -27,6 +27,7 @@
                           <th>Action</th>
                         </tr>
                         <?php foreach($materi as $row) : ?>
+                          <?php if($row['status']==1): ?>
                         <tr>
                           <td class="text-dark text-capitalize" ><?=$row['title']?></td>
                           <td>
@@ -38,6 +39,7 @@
                             <a href="#" class="btn btn-warning">Download</a>
                           </td>
                         </tr>
+                        <?php endif; ?>
                         <?php endforeach; ?>
                       </table>
                     </div>

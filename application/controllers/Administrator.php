@@ -51,18 +51,108 @@ class Administrator extends CI_Controller {
         }
     }
 
-    // menampilkan view materi
+    // menampilkan list materi
     public function manageMateri(){
+
         $data = [ 
             'title' 	=> 'Manage Materi',
             'content' 	=> 'administrator/management/manage-materi/materi',
+            'materi'    => $this->db->get('materi')->result_array()
         ]; 
         $this->load->view('templates/wrapper', $data);        
     }
+    // menambahkan materi baru
+    public function addMateri(){
+            if(isset($_POST['submit'])){
+                $file = $_FILES['file'];
+                if($file==''){
+                    }else{
+                        $config['upload_path'] = './assets/materi';
+                        $config['allowed_types'] = 'pdf';
 
-    // menampilkan view event
+                        $this->load->library('upload', $config);
+                        if(!$this->upload->do_upload('file')){
+                            redirect(base_url('Administrator/manageMateri'),'refresh');
+                        }else{
+                            $fileName = $this->upload->data('file_name');
+                        }
+                 }
+                 $data = [
+                    'title' => $this->input->post('title'),
+                    'file'   => $fileName,
+                    'category' => $this->input->post('category'),
+                    'date_created' => time(),
+                    'status' => $this->input->post('status')
+                ];
+                $this->db->insert('materi',$data);
+                  redirect(base_url('Administrator/manageMateri'),'refresh');
+        }else{
+            $data = [
+                'title'     => 'Add New Materi',
+                'content'   => 'administrator/management/manage-materi/add-materi',
+            ];
+            $this->load->view('templates/wrapper',$data);
+        }
+    }
+    // menampilkan materi
+    public function viewMateri(){
+        $id = $this->uri->segment(3);
+        $data = [
+            'title'   => 'View Materi',
+            'content' => 'administrator/management/manage-materi/view-materi',
+            'materi'   => $this->db->get_where('materi',['id' => $id])->row_array()
+        ];
+        $this->load->view('templates/wrapper',$data);
+
+    }
+    // update materi
+    public function editMateri(){
+        if(isset($_POST['submit'])){
+            $id = $this->uri->segment(3);
+            $file = $_FILES['content'];
+            if($file==''){
+            }else{
+                $config['upload_path'] = './assets/materi';
+                $config['allowed_types'] = 'pdf|doc';
+                $this->load->library('upload', $config);
+                if(!$this->upload->do_upload('content')){
+                    redirect(base_url('Administrator/manageMateri'),'refresh');
+                }else{
+                    $fileName = $this->upload->data('file_name');
+                }
+             }
+            $data = [
+                'title'         => $this->input->post('title'),
+                'file'         => $fileName,
+                'category'      => $this->input->post('category'),
+                'date_created'  => time(),
+                'status'        => $this->input->post('status')
+            ];
+            $this->db->where('id',$id);
+            $this->db->update('materi',$data);
+            redirect(base_url('Administrator/manageMateri'),'refresh');
+        }else{
+            $id = $this->uri->segment(3);
+            $data = [ 
+                'title' 	=> 'Edit Materi',
+                'content' 	=> 'administrator/management/manage-materi/edit-materi',
+                'materi'     => $this->db->get_where('materi',['id' => $id])->result_array()
+            ];
+            $this->load->view('templates/wrapper', $data);      
+        }
+    }
+    // delete materi
+    public function deleteMateri(){
+        $id = $this->uri->segment(3);
+        $this->db->where('id',$id);
+        $this->db->delete('materi');
+        redirect(base_url('Administrator/manageMateri'),'refresh');
+    }
+
+
+    // menampilkan list event
     public function manageEvent(){
-        $query = 'SELECT event.* , user.name FROM event JOIN user ON event.user_id = user.id';
+        $query = 'SELECT event.* , user.name, user.image FROM event JOIN user ON event.user_id = user.id';
         $data = [ 
             'title' 	=> 'Manage Event',
             'content' 	=> 'administrator/management/manage-event/event',
@@ -74,13 +164,27 @@ class Administrator extends CI_Controller {
     public function addEvent(){
         if(isset($_POST['submit'])){
             $user =  $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+            $image = $_FILES['image'];
+            if($image==''){
+                }else{
+                    $config['upload_path'] = './assets/img/event-thumbnail';
+                    $config['allowed_types'] = 'jpg|png';
+                    $this->load->library('upload', $config);
+                    if(!$this->upload->do_upload('image')){
+                        redirect(base_url('Administrator/manageEvent'),'refresh');
+                    }else{
+                        $imageName = $this->upload->data('file_name');
+                    }
+             }
             $data = [
                 'title' => $this->input->post('title'),
+                'Description' => $this->input->post('Description'),
                 'content' => $this->input->post('content'),
                 'category' => $this->input->post('category'),
                 'status' => $this->input->post('status'),
                 'date_created' => time(),
-                'user_id' => $user['id']
+                'user_id' => $user['id'],
+                'image'   => $imageName
             ];
             $this->db->insert('event',$data);
               redirect(base_url('Administrator/manageEvent'),'refresh');
@@ -97,13 +201,27 @@ class Administrator extends CI_Controller {
         if(isset($_POST['submit'])){
             $user =  $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
             $id = $this->uri->segment(3);
+            $image = $_FILES['image'];
+
+            $config['upload_path'] = './assets/img/event-thumbnail';
+            $config['allowed_types'] = 'jpg|png';
+            $this->load->library('upload', $config); 
+
+             if(!$this->upload->do_upload('image')){
+                $data = $this->db->get_where('event',['id' =>$id])->row_array();
+                $imageName = $data['image'];
+             }else{
+                $imageName = $this->upload->data('file_name');
+             }
             $data = [
-                'title' => $this->input->post('title'),
-                'content' => $this->input->post('content'),
-                'category' => $this->input->post('category'),
-                'status' => $this->input->post('status'),
-                'date_created' => time(),
-                'user_id' => $user['id']
+                'title'         => $this->input->post('title'),
+                'Description'   => $this->input->post('Description'),
+                'content'       => $this->input->post('content'),
+                'category'      => $this->input->post('category'),
+                'status'        => $this->input->post('status'),
+                'date_created'  => time(),
+                'user_id'       => $user['id'],
+                'image'         => $imageName
             ];
             $this->db->where('id',$id);
             $this->db->update('event',$data);

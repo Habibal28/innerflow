@@ -39,7 +39,7 @@
                             <tr>
                             <td><?=$i?></td>
                             <td><?=$row['name']?></td>
-                            <td><img src="<?=base_url('assets/img/avatar/')?><?=$row['image']?>" alt="profile" style="width: 3rem; height:3rem;" class="img-thumbnail"></td>
+                            <td><img src="<?=base_url('assets/img/foto-profile/')?><?=$row['image']?>" alt="profile" style="width: 3rem; height:3rem;" class="img-thumbnail"></td>
                             <td><?=$row['email']?></td>
 
                             <?php if($row['role']==1){

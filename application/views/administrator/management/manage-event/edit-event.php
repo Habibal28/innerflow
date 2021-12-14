@@ -18,12 +18,18 @@
               <div class="card-header">
                 <h4>Change Event</h4>
               </div>
-              <form action="<?=base_url('Administrator/editEvent/').$event[0]['id']?>" method="post">
+              <?php echo form_open_multipart(base_url('Administrator/editEvent/').$event[0]['id'], 'class="form-horizontal"');?>
               <div class="card-body">
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-12 col-lg-12">Title</label>
                   <div class="col-sm-12 col-md-12">
                     <input type="text" name="title" value="<?=$event[0]['title']?>" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row mb-4">
+                  <label class="col-form-label text-md-left col-12 col-md-12 col-lg-12">Description</label>
+                  <div class="col-sm-12 col-md-12">
+                    <input type="text" name="Description" value="<?=$event[0]['Description']?>" class="form-control">
                   </div>
                 </div>
                 <div class="form-group row mb-4">
@@ -49,6 +55,12 @@
                   </div>
                 </div>
                 <div class="form-group row mb-4">
+                  <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">Thumbnails</label>
+                  <div class="col-sm-12 col-md-12">
+                    <input type="file" name="image" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-12 col-lg-12">Content</label>
                   <div class="col-sm-12 col-md-12">
                     <textarea name="content" id="content" class="summernote-simple w-100"><?=$event[0]['content']?></textarea>
@@ -61,7 +73,7 @@
                   </div>
                 </div>
               </div>
-              </form>
+              <?php echo form_close(); ?>
             </div>
           </div>
         </div>

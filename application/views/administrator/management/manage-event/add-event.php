@@ -18,12 +18,18 @@
               <div class="card-header">
                 <h4>New Event</h4>
               </div>
-              <form action="<?=base_url('Administrator/addEvent')?>" method="post">
+              <?php echo form_open_multipart(base_url('Administrator/addEvent/'), 'class="form-horizontal"');  ?>
               <div class="card-body float-left">
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">Title</label>
                   <div class="col-sm-12 col-md-12">
                     <input type="text" name="title" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row mb-4">
+                  <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">Description</label>
+                  <div class="col-sm-12 col-md-12">
+                    <input type="text" name="Description" class="form-control">
                   </div>
                 </div>
                 <div class="form-group row mb-4">
@@ -45,6 +51,12 @@
                   </div>
                 </div>
                 <div class="form-group row mb-4">
+                  <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">Thumbnails</label>
+                  <div class="col-sm-12 col-md-12">
+                    <input type="file" name="image" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">Content</label>
                   <div class="col-sm-12 col-md-12">
                     <textarea name="content" id="content" class="summernote-simple w-100"></textarea>
@@ -57,7 +69,7 @@
                   </div>
                 </div>
               </div>
-              </form>
+              <?php echo form_close(); ?>
             </div>
           </div>
         </div>
