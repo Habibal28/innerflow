@@ -53,7 +53,7 @@
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-3 col-lg-3">Thumbnails</label>
                   <div class="col-sm-12 col-md-12">
-                    <input type="file" name="image" class="form-control">
+                    <input type="file" name="image" class="form-control" accept="image/*">
                   </div>
                 </div>
                 <div class="form-group row mb-4">

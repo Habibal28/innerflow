@@ -9,6 +9,8 @@
           <div class="card card-primary">
             <div class="card-header"><h4>Register</h4></div>
             <div class="card-body">
+              <!-- captcha -->
+            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
               <form method="POST" action="<?=base_url('Auth/verifregister')?>">
                 <div class="row">
                   <div class="form-group col-6">
@@ -37,9 +39,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block">
-                    Register
-                  </button>
+                <div class="g-recaptcha" data-sitekey="6LePwrkdAAAAABzPeFkH_e7hfhjj721lEAgRxUfu"></div>
+                </div>                
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary btn-lg btn-block" >Register</button>
                 </div>
               </form>
             </div>

@@ -17,7 +17,7 @@
               <div class="col-12 col-sm-6 col-md-6 col-lg-3">
                 <article class="article article-style-b">
                   <div class="article-header">
-                    <div class="article-image" data-background="<?=base_url('assets/img/event-thumbnail/').$row['image']?>"></div>
+                   <img src="<?=base_url('assets/img/event-thumbnail/').$row['image']?>" width="100%" height="100%" >
                   </div>
                   <div class="article-details">
                     <div class="article-title">

@@ -34,9 +34,17 @@
                     <?php foreach ($subMenu as $row1) : ?>
                         
                         <div class="nav-item">
+                          <!-- khusus untuk join grub tanpa base url -->
+                          <?php if ($row1['id'] == 12):?>
+                            <a class="nav-link" href="<?=$row1['url']?>">
+                            <i class="<?=$row1['icon']?>"></i>
+                            <span ><?=$row1['sub_menu']?></span></a>
+                          <?php else: ?> 
+                            <!-- jika tidak menggunakan base url -->
                             <a class="nav-link" href="<?=base_url($row1['url'])?>">
-                                <i class="<?=$row1['icon']?>"></i>
-                                <span ><?=$row1['sub_menu']?></span></a>
+                             <i class="<?=$row1['icon']?>"></i>
+                             <span ><?=$row1['sub_menu']?></span></a>
+                          <?php endif; ?>
                         </div>
                     <?php endforeach;?>
                     <hr class="sidebar-divider">

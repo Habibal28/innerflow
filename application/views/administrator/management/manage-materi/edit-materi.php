@@ -57,7 +57,8 @@
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Content</label>
                   <div class="col-sm-12 col-md-6">
-                    <input type="file" name="content" class="form-control" >
+                    <input type="file" name="content" class="form-control" accept=".pdf">
+                    <small class="text-danger">*kosongkan jika tidak diubah</small>
                   </div>
                 </div>
                 <div class="form-group row mb-4">

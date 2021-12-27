@@ -12,7 +12,7 @@
             </div>
           </div>
           <div class="section-body">
-
+          <div class="flashdata" data-halaman="Event" data-flashdata="<?=$this->session->flashdata('message')?>"></div>
             <div class="row mt-4">
               <div class="col-12">
                 <div class="card">
@@ -22,23 +22,29 @@
                   <div class="card-body">
 
                     <div class="table-responsive">
-                      <table class="table table-striped">
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Author</th>
+                                <th>Last Changes At</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php $i=1;
+                        foreach($event as $row) : ?>
                         <tr>
-                          <th>Title</th>
-                          <th>Category</th>
-                          <th>Author</th>
-                          <th>Last Changes At</th>
-                          <th>Status</th>
-                        </tr>
-                        <?php foreach($event as $row) : ?>
-                        <tr>
+                          <td><?=$i?></td>
                           <td class="text-primary"><?=$row['title']?>
                             <div class="table-links">
                               <a href="<?=base_url('Member/viewEvent/').$row['id']?>">View</a>
                               <div class="bullet"></div>
                               <a href="<?=base_url('Administrator/editEvent/').$row['id'] ?>">Edit</a>
                               <div class="bullet"></div>
-                              <a href="<?=base_url('Administrator/deleteEvent/').$row['id'] ?>" class="text-danger">Trash</a>
+                              <a href="<?=base_url('Administrator/deleteEvent/').$row['id'] ?>" class="text-danger btn-hapus">Trash</a>
                             </div>
                           </td>
                           <td>
@@ -55,35 +61,11 @@
                           <?php $color = ( $row['status'] == 1 ) ? 'primary':'danger' ?>
                           <td><div class="badge badge-<?=$color?>"><?=$status?></div></td>
                         </tr>
-                        <?php endforeach; ?>
-                      </table>
+                        <?php $i++;
+                      endforeach; ?>
+                        </tbody>
+                    </table>
                     </div>
-                    <div class="float-right">
-                      <nav>
-                        <ul class="pagination">
-                          <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Previous">
-                              <span aria-hidden="true">&laquo;</span>
-                              <span class="sr-only">Previous</span>
-                            </a>
-                          </li>
-                          <li class="page-item active">
-                            <a class="page-link" href="#">1</a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#">3</a>
-                          </li>
-                          <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                              <span aria-hidden="true">&raquo;</span>
-                              <span class="sr-only">Next</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
                     </div>
                   </div>
                 </div>

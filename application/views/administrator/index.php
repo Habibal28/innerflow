@@ -6,7 +6,6 @@
             <h1 class="text-primary"> Administrator</h1>
             <div class="section-header-breadcrumb">
               <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-              <div class="breadcrumb-item"><a href="#">Google Maps</a></div>
             </div>
           </div>
           <div class="row">
@@ -20,7 +19,7 @@
                     <h4>Members</h4>
                   </div>
                   <div class="card-body">
-                    <?=$members?>
+                    <?=$members['member']?>
                   </div>
                 </div>
               </div>
@@ -35,7 +34,7 @@
                     <h4>Events</h4>
                   </div>
                   <div class="card-body">
-                   <?=$events?>
+                   <?=$events['event']?>
                   </div>
                 </div>
               </div>
@@ -47,10 +46,10 @@
                 </div>
                 <div class="card-wrap">
                   <div class="card-header">
-                    <h4>Materi</h4>
+                    <h4>Learnings</h4>
                   </div>
                   <div class="card-body">
-                    6
+                  <?=$learnings['learning']?>
                   </div>
                 </div>
               </div>
@@ -64,10 +63,17 @@
                   <div class="card-header">
                     <h4></h4>
                   </div>
-                  <div class="card-body">
-                    <div id="simple-map" data-height="300">
-        
+                  <div class="card-body" >
+                    <div class="row">
+                      <div class="col-5 ">
+                        <canvas id="myChart"></canvas>
+                      </div>
+                    
+                      <div class="col-7">
+                        <canvas id="myChart1"></canvas>
+                      </div>
                     </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -75,3 +81,4 @@
           </div>
         </section>
       </div>
+      

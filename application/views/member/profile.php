@@ -31,25 +31,25 @@
                     <div class="profile-widget-description">
                       <div class="profile-widget-name">
                       <?=$profile['name']?>
-                        <div class="text-muted d-inline font-weight-normal">
-                          <div class="slash"></div>
-                          Web Developer
-                        </div>
+                        <!-- <div class="text-muted d-inline font-weight-normal"> -->
+                          <!-- <div class="slash"></div> -->
+                          <!-- Web Developer -->
+                        <!-- </div> -->
                       </div>
                       <p><?=$profile['description']?></p>
                     </div>
                     <div class="card-footer text-center">
                       <div class="font-weight-bold mb-2">Follow <?=$profile['name']?> On</div>
-                      <a href="#" class="btn btn-social-icon btn-facebook mr-1">
+                      <a href="https://www.facebook.com/<?=$profile['facebook']?>" target="_blank" class="btn btn-social-icon btn-facebook mr-1">
                         <i class="fab fa-facebook-f text-primary"></i>
                       </a>
-                      <a href="#" class="btn btn-social-icon btn-twitter mr-1">
+                      <a href="https://twitter.com/<?php echo $profile['twitter']?>" target="_blank" class="btn btn-social-icon btn-twitter mr-1">
                         <i class="fab fa-twitter text-info"></i>
                       </a>
-                      <a href="#" class="btn btn-social-icon btn-github mr-1 ">
+                      <a href="https://github.com/<?=$profile['github']?>" target="_blank" class="btn btn-social-icon btn-github mr-1 ">
                         <i class="fab fa-github text-dark"></i>
                       </a>
-                      <a href="#" class="btn btn-social-icon btn-instagram ">
+                      <a href="https://www.instagram.com/<?=$profile['instagram']?>" target="_blank" class="btn btn-social-icon btn-instagram ">
                         <i class="fab fa-instagram text-danger"></i>
                       </a>
                     </div>
@@ -59,7 +59,7 @@
                   <div class="card">
                     <?php echo form_open_multipart(base_url('Member/profile/'.$profile['id']), 'class="form-horizontal"');  ?>
                       <div class="card-header">
-                        <h4>Edit Profile</h4>
+                        <h4>Change Profile</h4>
                       </div>
                       <div class="card-body">
                         <div class="row">
@@ -86,6 +86,7 @@
                             <div class="invalid-feedback">
                               Please select the foto
                             </div>
+                            <small class="text-danger">* just leave it blank if it's not changed</small>
                           </div>
                         </div>
                         <div class="row">
@@ -106,7 +107,59 @@
                             <label>Phone</label>
                             <input type="tel" class="form-control" name="phone" value="<?=$profile['phone']?>" />
                           </div>
-                        </div>
+                         <div class="form-group col-md-6 col-12">
+                           <label>facebook</label>
+                           <input
+                             type="text"
+                             class="form-control"
+                             value="<?=$profile['facebook']?>"
+                             name="facebook"
+                           />
+                           <div class="invalid-feedback">
+                             Please fill in the facebook
+                           </div>
+                           <small class="text-danger">* just leave it blank if it's not changed</small>
+                         </div>
+                         <div class="form-group col-md-6 col-12">
+                           <label>twitter</label>
+                           <input
+                              type="text"
+                              class="form-control"
+                              value="<?=$profile['twitter']?>"
+                              name="twitter"
+                            />
+                            <div class="invalid-feedback">
+                              Please fill in the twitter
+                            </div>
+                           <small class="text-danger">* just leave it blank if it's not changed</small>
+                         </div>
+                         <div class="form-group col-md-6 col-12">
+                           <label>github</label>
+                           <input
+                              type="text"
+                              class="form-control"
+                              value="<?=$profile['github']?>"
+                              name="github"
+                            />
+                            <div class="invalid-feedback">
+                              Please fill in the github
+                            </div>
+                           <small class="text-danger">* just leave it blank if it's not changed</small>
+                         </div>
+                         <div class="form-group col-md-6 col-12">
+                           <label>instagram</label>
+                           <input
+                              type="text"
+                              class="form-control"
+                              value="<?=$profile['instagram']?>"
+                              name="instagram"
+                            />
+                            <div class="invalid-feedback">
+                              Please fill in the instagram
+                            </div>
+                           <small class="text-danger">* just leave it blank if it's not changed</small>
+                         </div>
+                       </div>
                         <div class="row">
                           <div class="form-group col-12">
                             <label>Bio</label>

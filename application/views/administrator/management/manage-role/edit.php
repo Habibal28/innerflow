@@ -20,7 +20,7 @@
                     <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
                     <div class="card-header">
-                        <h4>Management Data User</h4>
+                        <h4><?=$title?></h4>
                     </div>
                          <div class="card-body p-0">
                              <div class="table-responsive">

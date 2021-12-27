@@ -14,6 +14,16 @@ crossorigin="anonymous"></script>
   <script src="<?=base_url()?>/assets/js/scripts.js"></script>
   <script src="<?=base_url()?>/assets/js/custom.js"></script>
 
-  <!-- Page Specific JS File -->
+  <!-- sweetalert -->
+  <script src="<?=base_url('assets/js/sweetalert/')?>sweetalert2.all.min.js"></script>
+  <script src="<?=base_url('assets/js/')?>myalert.js"></script>
+
+  <!-- captcha -->
+  <script type="text/javascript">
+  var onloadCallback = function() {
+    alert("grecaptcha is ready!");
+  };
+</script>
+
 </body>
 </html>

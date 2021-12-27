@@ -3,10 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Member extends CI_Controller {
 
-    public function index(){        
+    public function index(){      
+        $queryEvent = "SELECT count(*) event FROM event WHERE status = 1";
+        $queryLearning = "SELECT count(*) learning FROM materi WHERE status = 1";
+        $events =  $this->db->query($queryEvent)->row_array();  
+        $learnings =  $this->db->query($queryLearning)->row_array();    
         $data = [
-            'title'   => 'Administrator',
-            'content' => 'Administrator'
+            'title'   => 'Member',
+            'content' => 'member/index',
+            'events'   => $events,
+            'learnings'   => $learnings
         ];
         $this->load->view('templates/wrapper',$data);
     }
@@ -14,39 +20,44 @@ class Member extends CI_Controller {
 
         if(isset($_POST['submit'])){
             $id   = $this->uri->segment(3);
-            $name  =  $this->input->post('name');
-            $email =  $this->input->post('email');
-            $phone =  $this->input->post('phone');
-            $image = $_FILES['image'];
-
-            if($image==''){
-            }else{
+            $user = $this->db->get_where('user',['id' =>$id])->row_array();
+            
                 $config['upload_path'] = './assets/img/foto-profile';
                 $config['allowed_types'] = 'jpg|png';
-                // $config['max_size']     = '1000';
-                // $config['max_width'] = '1024';
-                // $config['max_height'] = '768';
-
                 $this->load->library('upload', $config);
                 if(!$this->upload->do_upload('image')){
-                    redirect(base_url('Member/event'));
+                    $imageName = $user['image'];
                 }else{
                     $imageName = $this->upload->data('file_name');
                 }
-             }
+                // set data user
             $data = [ 
-                          'name' => $name,
-                          'email' => $email,
-                          'phone' => $phone,
-                          'image' => $imageName       
+                          'name' =>  $this->input->post('name'),
+                          'email' =>  $this->input->post('email'),
+                          'phone' =>  $this->input->post('phone'),
+                          'image' => $imageName   ,    
+                          'description' =>  $this->input->post('content')
                 ];
             $this->db->where('id',$id);
             $this->db->update('user',$data);
+                // set data sosial media
+            $dataSosialMedia = [ 
+                'facebook'   =>  $this->input->post('facebook'),
+                'twitter'    =>  $this->input->post('twitter'),
+                'github'     =>  $this->input->post('github'),
+                'instagram'  =>  $this->input->post('instagram')
+            ];
+            $this->db->where('id_sosial_media',$user['sosial_media_id']);
+            $this->db->update('sosial_media',$dataSosialMedia);
+            // pindahkan ke halaman profile dan refresh
             redirect(base_url('member/profile'),'refresh');
         }else {
+            $email = $this->session->userdata('email');
+            $query = "SELECT user.*,sosial_media.* FROM user JOIN sosial_media ON sosial_media.id_sosial_media = user.sosial_media_id WHERE user.email = '$email'";
+            $profile = $this->db->query($query)->row_array();
             $data = [	'title' 	=> 'Member',
                         'content' 	=> 'member/profile',
-                        'profile'   => $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array()
+                        'profile'   => $profile
             ];
             $this->load->view('templates/wrapper', $data);
         }                                            
@@ -89,6 +100,14 @@ class Member extends CI_Controller {
             'title'   => 'Preview Materi',
             'file'    => $materi['file'],
             'content' => 'member/materi/view-materi'
+        ];
+        $this->load->view('templates/wrapper',$data);
+    }
+
+    public function upgradeAkun(){
+        $data = [
+            'title'   => 'Upgrade Akun',
+            'content' => 'member/upgrade-akun'
         ];
         $this->load->view('templates/wrapper',$data);
     }

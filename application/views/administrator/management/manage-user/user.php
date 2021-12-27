@@ -43,8 +43,10 @@
                             <td><?=$row['email']?></td>
 
                             <?php if($row['role']==1){
-                                    $role = 'Administrator';                         
-                              }else {
+                                $role = 'Administrator';                         
+                              }else if($row['role']==2){
+                                $role = 'Vip';
+                              }else if($row['role'] == 3){
                                 $role = 'Member';
                               } ?>
 
@@ -121,6 +123,12 @@
             Administrator
           </label>
         </div>
+        <div class="form-check pl-5">
+          <input class="form-check-input" name="role" type="radio" value="2" id="roleVip"  >
+           <label class="form-check-label" for="roleVip">
+             Vip 
+           </label>
+         </div>
          <div class="form-check pl-5">
           <input class="form-check-input" name="role" type="radio" value="2" id="roleMember"  >
            <label class="form-check-label" for="roleMember">

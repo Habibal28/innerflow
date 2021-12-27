@@ -9,7 +9,7 @@
          <div class="breadcrumb-item"><a href="#">Forms</a></div>
          <div class="breadcrumb-item">Editor</div>
        </div>
-     </div
+    </div>
        <div class="section-body">
         <h2 class="section-title">Editor</h2>
         <div class="row">
@@ -47,7 +47,7 @@
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Content</label>
                   <div class="col-sm-12 col-md-6">
-                    <input type="file" name="file" class="form-control">
+                    <input type="file" name="file" class="form-control" accept=".pdf">
                   </div>
                 </div>
                 <div class="form-group row mb-4">
