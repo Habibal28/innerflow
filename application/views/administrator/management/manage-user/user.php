@@ -16,7 +16,7 @@
               <div class="col-12">
                 <div class="card">
                   <div class="card-body">
-                    <div id="simple-map" data-height="500">
+                    <div id="simple-map" data-height="100%">
                     <div class="col-12 col-md-12 col-lg-12">
                     <div class="card">
                     <div class="card-header">
@@ -24,31 +24,35 @@
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                        <table class="table table-striped table-md">
+                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
                             <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>image</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                                <th>No</th>
+                                <th>Name</th>
+                                <th>image</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
-                            <?php $i=1;
-                            foreach($user as $row) : ?>
-                            <tr>
-                            <td><?=$i?></td>
-                            <td><?=$row['name']?></td>
+                        </thead>
+                        <tbody>
+                        <?php $i=1; foreach($user as $row) : ?>
+                        <tr>
+                          <td><?=$i?></td>
+                          <td><?=$row['name']?></td>
                             <td><img src="<?=base_url('assets/img/foto-profile/')?><?=$row['image']?>" alt="profile" style="width: 3rem; height:3rem;" class="img-thumbnail"></td>
                             <td><?=$row['email']?></td>
 
                             <?php if($row['role']==1){
                                 $role = 'Administrator';                         
                               }else if($row['role']==2){
-                                $role = 'Vip';
-                              }else if($row['role'] == 3){
                                 $role = 'Member';
-                              } ?>
+                              }else if($row['role'] == 3){
+                                $role = 'Vip';
+                              }else{
+                                $role = 'no Role';
+                              }?>
 
                             <td><?=$role?></td>
 
@@ -62,38 +66,21 @@
                             <td><div class="badge badge-<?=$color?>"><?=$status?></div></td>
                             <td>
                               <button type="button" class="btn btn-warning btn-detailUser" data-toggle="modal" data-target="#staticBackdrop"
-                                data-role="<?=$row['role']?>" data-status="<?=$row['is_active']?>" data-id="<?=$row['id']?>"
+                                data-role="<?=$role?>" data-status="<?=$row['is_active']?>" data-id="<?=$row['id']?>"
                               >Detail</button>
                             </td>
-                            </tr>
-                            <?php $i++;
-                           endforeach;?>
-                        </table>
+                        </tr>
+                        <?php $i++; endforeach;?>
+                        </tbody>
+                    </table>
                         </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <nav class="d-inline-block">
-                        <ul class="pagination mb-0">
-                            <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1"><i class="fas fa-chevron-left"></i></a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1 <span class="sr-only">(current)</span></a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                            <a class="page-link" href="#"><i class="fas fa-chevron-right"></i></a>
-                            </li>
-                        </ul>
-                        </nav>
                     </div>
                     </div>
                 </div>
                 </div>
                         </div>
-                    </div>
-                    </div>
+                      </div>
+                  </div>
                 </div>
                 </div>
             </div>
@@ -124,7 +111,7 @@
           </label>
         </div>
         <div class="form-check pl-5">
-          <input class="form-check-input" name="role" type="radio" value="2" id="roleVip"  >
+          <input class="form-check-input" name="role" type="radio" value="3" id="roleVip"  >
            <label class="form-check-label" for="roleVip">
              Vip 
            </label>

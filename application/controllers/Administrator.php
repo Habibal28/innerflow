@@ -5,51 +5,38 @@ class Administrator extends CI_Controller {
 
     public function __construct()
     {
-        parent:: __construct();
-        $this->load->model('sidebarModel');
+        parent::__construct();
+        $this->load->model('M_administrator');
     }
+
     public function index()
     {
-        $queryMember = "SELECT count(*) member FROM user WHERE role = 2 AND 3";
-        $queryEvent = "SELECT count(*) event FROM event WHERE status = 1";
-        $queryLearning = "SELECT count(*) learning FROM materi WHERE status = 1";
-        $members =  $this->db->query($queryMember)->row_array();  
-        $events =  $this->db->query($queryEvent)->row_array();  
-        $learnings =  $this->db->query($queryLearning)->row_array();  
+        $result = $this->M_administrator->dashboardAdmin();
         $data = array( 	'title'   => 'Administrator',
-                        'content' => 'administrator/index',
-                        'members' => $members,
-                        'events'   => $events,
-                        'learnings'   => $learnings
-                    );
-                    // var_dump($data);die;
+        'content' => 'administrator/index',
+        'result'  => $result
+    );
         $this->load->view('templates/wrapper', $data);
     }
     // chart
     public function chart(){
         $type = $this->uri->segment(3);
         if($type == 'pie'){
-            $queryvip = "SELECT count(role) as vip FROM user WHERE role = 2";
-            $querymember = "SELECT count(role) as member FROM user WHERE role = 3";
-            $data = [
-                'vip' => $this->db->query($queryvip)->row_array(),
-                'member' =>  $this->db->query($querymember)->row_array(),
-            ];
-            echo json_encode($data);
+            $result = $this->M_administrator->chart($type);
+            echo json_encode($result);
         }else if($type == 'bar'){
             // mencari bulan per user
-            $query = "SELECT date_created From user WHERE role >= 2";
-            $temp = $this->db->query($query)->result_array();
+           
+            $result = $this->M_administrator->chart($type);
             $i=0;
-            foreach($temp as $row) :
+            foreach($result as $row) :
                 $tes[] = explode('-',$row['date_created']);
                 $bulan[] = $tes[$i][1];
                 $i++;
             endforeach;
             
             for($i=1;$i<=12;$i++){
-                $query = "SELECT count(*) as bulan$i FROM user where MONTH(date_created) = $i";
-                $data[] = $this->db->query($query)->row_array();
+               $data[] = $this->M_administrator->hitungBulan_forChart($i);
             }
             echo json_encode($data);
         }
@@ -66,13 +53,12 @@ class Administrator extends CI_Controller {
                           'role' => $role,
                           'is_active' => $status   
             ];
-            $this->db->where('id',$id);
-            $this->db->update('user',$data);
+            $this->M_administrator->editUser($id,$data);
             redirect(base_url('administrator/manageUser'),'refresh');
         }else {
             $data = [ 	'title' 	=> 'Manage User',
                         'content' 	=> 'administrator/management/manage-user/user',
-                        'user'      => $this->db->get('user')->result_array()
+                        'user'      => $this->M_administrator->getUser()
               ];
               $this->load->view('templates/wrapper', $data);
         }
@@ -80,16 +66,14 @@ class Administrator extends CI_Controller {
 
     // menampilkan list materi
     public function manageMateri(){
-
         $data = [ 
             'title' 	=> 'Manage Materi',
             'content' 	=> 'administrator/management/manage-materi/materi',
-            'materi'    => $this->db->get('materi')->result_array()
+            'materi'    => $this->M_administrator->getMateri()
         ];
         if($this->uri->segment(3)){
             $this->session->set_flashdata('message','');
         }
-        
         $this->load->view('templates/wrapper', $data);        
     }
     // menambahkan materi baru
@@ -115,7 +99,7 @@ class Administrator extends CI_Controller {
                     'date_created' => time(),
                     'status' => $this->input->post('status')
                 ];
-                $this->db->insert('materi',$data);
+                $this->M_administrator->tambahMateri($data);
                 $this->session->set_flashdata('message','Ditambahkan');
                   redirect(base_url('Administrator/manageMateri'),'refresh');
         }else{
@@ -132,7 +116,7 @@ class Administrator extends CI_Controller {
         $data = [
             'title'   => 'View Materi',
             'content' => 'administrator/management/manage-materi/view-materi',
-            'materi'   => $this->db->get_where('materi',['id' => $id])->row_array()
+            'materi'   => $this->M_administrator->detailMateri($id)
         ];
         $this->load->view('templates/wrapper',$data);
 
@@ -158,8 +142,7 @@ class Administrator extends CI_Controller {
                 'date_created'  => time(),
                 'status'        => $this->input->post('status')
             ];
-            $this->db->where('id',$id);
-            $this->db->update('materi',$data);
+            $this->M_administrator->editMateri($id,$data);
             $this->session->set_flashdata('message','Diedit');
             redirect(base_url('Administrator/manageMateri'),'refresh');
         }else{
@@ -167,7 +150,7 @@ class Administrator extends CI_Controller {
             $data = [ 
                 'title' 	=> 'Edit Materi',
                 'content' 	=> 'administrator/management/manage-materi/edit-materi',
-                'materi'     => $this->db->get_where('materi',['id' => $id])->result_array()
+                'materi'     => $this->M_administrator->detailMateri($id)
             ];
             $this->load->view('templates/wrapper', $data);      
         }
@@ -175,19 +158,16 @@ class Administrator extends CI_Controller {
     // delete materi
     public function deleteMateri(){
         $id = $this->uri->segment(3);
-        $this->db->where('id',$id);
-        $this->db->delete('materi');
+        $this->M_administrator->hapusMateri($id);
         redirect(base_url('Administrator/manageMateri'),'refresh');
     }
 
-
     // menampilkan list event
     public function manageEvent(){
-        $query = 'SELECT event.* , user.name, user.image FROM event JOIN user ON event.user_id = user.id';
         $data = [ 
             'title' 	=> 'Manage Event',
             'content' 	=> 'administrator/management/manage-event/event',
-            'event'     => $this->db->query($query)->result_array()
+            'event'     => $this->M_administrator->getEventAdminCreated()
         ];
         if($this->uri->segment(3)){
             $this->session->set_flashdata('message','');
@@ -202,7 +182,7 @@ class Administrator extends CI_Controller {
             if($image==''){
                 }else{
                     $config['upload_path'] = './assets/img/event-thumbnail';
-                    $config['allowed_types'] = 'jpg|png';
+                    $config['allowed_types'] = 'jpg|png|jpeg';
                     $this->load->library('upload', $config);
                     if(!$this->upload->do_upload('image')){
                         redirect(base_url('Administrator/manageEvent'),'refresh');
@@ -220,7 +200,7 @@ class Administrator extends CI_Controller {
                 'user_id' => $user['id'],
                 'image'   => $imageName
             ];
-              $this->db->insert('event',$data);
+              $this->M_administrator->tambahEvent($data);
               $this->session->set_flashdata('message','Ditambahkan');
               redirect(base_url('Administrator/manageEvent'),'refresh');
         }else{
@@ -242,8 +222,8 @@ class Administrator extends CI_Controller {
             $this->load->library('upload', $config); 
 
              if(!$this->upload->do_upload('image')){
-                $data = $this->db->get_where('event',['id' =>$id])->row_array();
-                $imageName = $data['image'];
+                $data = $this->M_administrator->detailEvent($id);
+                $imageName = $data[0]['image'];
              }else{
                 $imageName = $this->upload->data('file_name');
              }
@@ -257,8 +237,7 @@ class Administrator extends CI_Controller {
                 'user_id'       => $user['id'],
                 'image'         => $imageName
             ];
-            $this->db->where('id',$id);
-            $this->db->update('event',$data);
+            $this->M_administrator->editEvent($id,$data);
             $this->session->set_flashdata('message','Diedit');
             redirect(base_url('Administrator/manageEvent'),'refresh');
         }else{
@@ -266,7 +245,7 @@ class Administrator extends CI_Controller {
             $data = [ 
                 'title' 	=> 'Edit Event',
                 'content' 	=> 'administrator/management/manage-event/edit-event',
-                'event'     => $this->db->get_where('event',['id' => $id])->result_array()
+                'event'     => $this->M_administrator->detailEvent($id)
             ];
             $this->load->view('templates/wrapper', $data);      
         }
@@ -274,8 +253,7 @@ class Administrator extends CI_Controller {
     // Delete Event 
     public function deleteEvent(){
         $id = $this->uri->segment(3);
-        $this->db->where('id',$id);
-        $this->db->delete('event');
+        $this->M_administrator->deleteEvent($id);
         redirect(base_url('Administrator/manageEvent'),'refresh');
     }
     // view event
@@ -284,57 +262,58 @@ class Administrator extends CI_Controller {
         $data = [
             'title'   => 'View Event',
             'content' => 'administrator/management/manage-event/view-event',
-            'event'   => $this->db->get_where('event',['id' => $id])->row_array()
+            'event'   => $this->M_administrator->detailEvent($id)
         ];
         $this->load->view('templates/wrapper',$data);
     }
 
+    // Management Role access
     // menampilkan view edit role
-    public function manageRole(){
-            $data = [ 
-                    	'title' 	=> 'Manage Role',
-                        'content' 	=> 'administrator/management/manage-role/role',
-                        'user'      => $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array(),
-                        'role'      => $this->db->get('role')->result_array(),
-                        'menu'      => $this->db->get('list_menu')->result_array(),
-                        'access'    => $this->db->get('access_menu')->result_array()
-                    ];
-            $this->load->view('templates/wrapper', $data);
-    }
+    // public function manageRole(){
+            // $data = [ 
+                    	// 'title' 	=> 'Manage Role',
+                        // 'content' 	=> 'administrator/management/manage-role/role',
+                        // 'user'      => $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array(),
+                        // 'role'      => $this->db->get('role')->result_array(),
+                        // 'menu'      => $this->db->get('list_menu')->result_array(),
+                        // 'access'    => $this->db->get('access_menu')->result_array()
+                    // ];
+            // $this->load->view('templates/wrapper', $data);
+    // }
     // menampilkan view edit role access
-    public function editRole(){
-        $data = [ 
-                	'title' 	=> 'Manage Role Access',
-                    'content' 	=> 'administrator/management/manage-role/edit',
-                    'menu'      => $this->db->get('list_menu')->result_array(),
-                    'role_id'   => $this->uri->segment(3),
-                    'access'    => $this->db->get('access_menu')->result_array()
-                ];
-                
-        $this->load->view('templates/wrapper', $data);
-    }
+    // public function editRole(){
+        // $data = [ 
+                	// 'title' 	=> 'Manage Role Access',
+                    // 'content' 	=> 'administrator/management/manage-role/edit',
+                    // 'menu'      => $this->db->get('list_menu')->result_array(),
+                    // 'role_id'   => $this->uri->segment(3),
+                    // 'access'    => $this->db->get('access_menu')->result_array()
+                // ];
+                // 
+        // $this->load->view('templates/wrapper', $data);
+    // }
     // change role access with ajax
-    public function ajaxchangeaccess(){
-        $list_menu_id = $this->input->post('menuId');
-        $role_id = $this->input->post('roleId');
-        $data = [
-            'list_menu_id' => $list_menu_id,
-            'role_id' => $role_id
-        ];
-        $result = $this->db->get_where('access_menu' , $data);
-        if($result->num_rows()> 1){
-            $this->db->delete('access_menu',$data);
-        }else{
-            $this->db->insert('access_menu',$data);
-        }
-    }
+    // public function ajaxchangeaccess(){
+        // $list_menu_id = $this->input->post('menuId');
+        // $role_id = $this->input->post('roleId');
+        // $data = [
+            // 'list_menu_id' => $list_menu_id,
+            // 'role_id' => $role_id
+        // ];
+        // $result = $this->db->get_where('access_menu' , $data);
+        // if($result->num_rows()> 1){
+            // $this->db->delete('access_menu',$data);
+        // }else{
+            // $this->db->insert('access_menu',$data);
+        // }
+    // }
 
     // list of vidio
     public function manageVidio(){
         $data = [ 
             'title' 	=> 'Manage Vidio',
             'content' 	=> 'administrator/management/manage-vidio/vidio',
-            'vidio'    => $this->db->get('vidio')->result_array()
+            'vidio'    => $this->M_administrator->getVidio()
         ];
         if($this->uri->segment(3)){
             $this->session->set_flashdata('message','');
@@ -360,7 +339,7 @@ class Administrator extends CI_Controller {
                 'date_created' => time(),
                 'status' => $this->input->post('status')
             ];
-            $this->db->insert('vidio',$data);
+            $this->M_administrator->tambahVidio($data);
             $this->session->set_flashdata('message','Ditambahkan');
             redirect(base_url('Administrator/manageVidio'),'refresh');
     }else{
@@ -379,7 +358,7 @@ class Administrator extends CI_Controller {
             $config['allowed_types'] = 'jpg|png|jpeg';
             $this->load->library('upload', $config); 
              if(!$this->upload->do_upload('thumbnail')){
-                $data = $this->db->get_where('vidio',['id_vidio' =>$id])->row_array();
+                $data = $this->M_administrator->detailVidio($id);
                 $imageName = $data['thumbnail'];
              }else{
                 $imageName = $this->upload->data('file_name');
@@ -391,8 +370,7 @@ class Administrator extends CI_Controller {
                 'date_created' => time(),
                 'status' => $this->input->post('status')
             ];
-            $this->db->where('id_vidio',$id);
-            $this->db->update('vidio',$data);
+            $this->M_administrator->editVidio($id,$data);
             $this->session->set_flashdata('message','Diedit');
             redirect(base_url('Administrator/manageVidio'),'refresh');
         }else{
@@ -400,7 +378,7 @@ class Administrator extends CI_Controller {
             $data = [ 
                 'title' 	=> 'Edit Vidio',
                 'content' 	=> 'administrator/management/manage-vidio/edit-vidio',
-                'vidio'     => $this->db->get_where('vidio',['id_vidio' => $id])->result_array()
+                'vidio'     => $this->M_administrator->detailVidio($id)
             ];
             // var_dump($data);die;
             $this->load->view('templates/wrapper', $data);      
@@ -409,19 +387,18 @@ class Administrator extends CI_Controller {
     // delete vidio
     public function deleteVidio(){
         $id = $this->uri->segment(3);
-        $this->db->where('id_vidio',$id);
-        $this->db->delete('vidio');
+        $this->M_administrator->hapusVidio($id);
         $this->session->set_flashdata('message','Dihapus');
         redirect(base_url('Administrator/manageVidio'),'refresh');
     }
 
     // list of Trabar & Anabar
     public function manageTrabarAnabar(){
-        $query = 'SELECT trabaranabar.* , user.name, user.image FROM trabaranabar JOIN user ON trabaranabar.user_id = user.id';
+        
         $data = [ 
             'title' 	=> 'Manage Trabar & Anabar',
             'content' 	=> 'administrator/management/manage-trabarAnabar/trabar-anabar',
-            'trabarAnabar'    => $this->db->query($query)->result_array()
+            'trabarAnabar'    => $this->M_administrator->getTrabarAnabarAdminCreated()
         ];
         if($this->uri->segment(3)){
             $this->session->set_flashdata('message','');
@@ -449,7 +426,7 @@ class Administrator extends CI_Controller {
                 'status' => $this->input->post('status'),
                 'user_id' => $user['id']
             ];
-              $this->db->insert('trabaranabar',$data);
+              $this->M_administrator->tambahTrabarAnabar($data);
               $this->session->set_flashdata('message','Ditambahkan');
               redirect(base_url('Administrator/manageTrabarAnabar'),'refresh');
         }else{
@@ -469,7 +446,7 @@ class Administrator extends CI_Controller {
             $config['allowed_types'] = 'jpg|png|jpeg';
             $this->load->library('upload', $config); 
              if(!$this->upload->do_upload('thumbnail')){
-                $data = $this->db->get_where('trabaranabar',['id_TrabarAnabar'=>$id])->row_array();
+                $data = $this->M_administrator->detailTrabarAnabar($id);
                 $imageName = $data['thumbnail'];    
              }else{
                 $imageName = $this->upload->data('file_name');
@@ -483,16 +460,15 @@ class Administrator extends CI_Controller {
                 'status' => $this->input->post('status'),
                 'user_id' => $user['id']
             ];
-            $this->db->where('id_trabarAnabar',$id);
-            $this->db->update('trabaranabar',$data);
+            $this->M_administrator->editTrabarAnabar($id,$data);
             $this->session->set_flashdata('message','Diedit');
             redirect(base_url('Administrator/manageTrabarAnabar'),'refresh');
         }else{  
             $id = $this->uri->segment(3);
             $data = [ 
-                'title' 	=> 'Edit Trabar & Anabar',
-                'content' 	=> 'administrator/management/manage-trabarAnabar/edit-trabarAnabar',
-                'trabarAnabar'  => $this->db->get_where('trabaranabar',['id_TrabarAnabar' => $id])->result_array()
+                'title' 	    => 'Edit Trabar & Anabar',
+                'content' 	    => 'administrator/management/manage-trabarAnabar/edit-trabarAnabar',
+                'trabarAnabar'  =>$this->M_administrator->detailTrabarAnabar($id)
             ];
             $this->load->view('templates/wrapper', $data);      
         }
@@ -500,8 +476,7 @@ class Administrator extends CI_Controller {
      // delete Trabar & Anabar
     public function deleteTrabarAnabar(){
         $id = $this->uri->segment(3);
-        $this->db->where('id_trabarAnabar',$id);
-        $this->db->delete('trabaranabar');
+        $this->M_administrator->hapusTrabarAnabar($id);
         $this->session->set_flashdata('message','Dihapus');
         redirect(base_url('Administrator/manageTrabarAnabar'),'refresh');
     }

@@ -18,28 +18,28 @@
               <div class="card-header">
                 <h4>Edit Vidio</h4>
               </div>
-              <?php echo form_open_multipart(base_url('Administrator/editVidio/').$vidio[0]['id_vidio'], 'class="form-horizontal"');  ?>
+              <?php echo form_open_multipart(base_url('Administrator/editVidio/').$vidio['id_vidio'], 'class="form-horizontal"');  ?>
               <div class="card-body ">
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Title</label>
                   <div class="col-sm-12 col-md-6">
-                    <input type="text" name="judul" class="form-control" value="<?=$vidio[0]['judul']?>">
+                    <input type="text" name="judul" class="form-control" value="<?=$vidio['judul']?>">
                   </div>
                 </div>
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Link</label>
                   <div class="col-sm-12 col-md-6">
-                    <input type="text" name="link" class="form-control" value="<?=$vidio[0]['link']?>">
+                    <input type="text" name="link" class="form-control" value="<?=$vidio['link']?>">
                   </div>
                 </div>
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Status</label>
                   <div class="col-sm-12 col-md-6">
                     <select name="status" class="form-control selectric" >
-                    <?php if($vidio[0]['status'] == '1'){?>
+                    <?php if($vidio['status'] == '1'){?>
                       <option selected value="1">Publish</option>
                       <option value="0">Draft</option>
-                    <?php }else if($vidio[0]['status'] == '0'){ ?>
+                    <?php }else if($vidio['status'] == '0'){ ?>
                       <option value="1">Publish</option>
                       <option selected value="0">Draft</option>
                     <?php }; ?>

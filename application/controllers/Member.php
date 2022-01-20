@@ -2,17 +2,20 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Member extends CI_Controller {
+    
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('M_member');
+    }
 
     public function index(){      
-        $queryEvent = "SELECT count(*) event FROM event WHERE status = 1";
-        $queryLearning = "SELECT count(*) learning FROM materi WHERE status = 1";
-        $events =  $this->db->query($queryEvent)->row_array();  
-        $learnings =  $this->db->query($queryLearning)->row_array();    
+        $result = $this->M_member->dashboardMember();
         $data = [
             'title'   => 'Member',
             'content' => 'member/index',
-            'events'   => $events,
-            'learnings'   => $learnings
+            'events'   => $result['events']['event'],
+            'learnings'   =>  $result['learnings']['learning']
         ];
         $this->load->view('templates/wrapper',$data);
     }
@@ -20,10 +23,10 @@ class Member extends CI_Controller {
 
         if(isset($_POST['submit'])){
             $id   = $this->uri->segment(3);
-            $user = $this->db->get_where('user',['id' =>$id])->row_array();
+            $user = $this->M_member->detailUser($id);
             
                 $config['upload_path'] = './assets/img/foto-profile';
-                $config['allowed_types'] = 'jpg|png';
+                $config['allowed_types'] = 'jpg|png|jpeg';
                 $this->load->library('upload', $config);
                 if(!$this->upload->do_upload('image')){
                     $imageName = $user['image'];
@@ -38,8 +41,7 @@ class Member extends CI_Controller {
                           'image' => $imageName   ,    
                           'description' =>  $this->input->post('content')
                 ];
-            $this->db->where('id',$id);
-            $this->db->update('user',$data);
+                $this->M_member->editProfile($id,$data);
                 // set data sosial media
             $dataSosialMedia = [ 
                 'facebook'   =>  $this->input->post('facebook'),
@@ -47,14 +49,12 @@ class Member extends CI_Controller {
                 'github'     =>  $this->input->post('github'),
                 'instagram'  =>  $this->input->post('instagram')
             ];
-            $this->db->where('id_sosial_media',$user['sosial_media_id']);
-            $this->db->update('sosial_media',$dataSosialMedia);
+            $this->M_member->editSosialMedia($user,$dataSosialMedia);
             // pindahkan ke halaman profile dan refresh
             redirect(base_url('member/profile'),'refresh');
         }else {
             $email = $this->session->userdata('email');
-            $query = "SELECT user.*,sosial_media.* FROM user JOIN sosial_media ON sosial_media.id_sosial_media = user.sosial_media_id WHERE user.email = '$email'";
-            $profile = $this->db->query($query)->row_array();
+            $profile = $this->M_member->detailUserSosialMedia($email);
             $data = [	'title' 	=> 'Member',
                         'content' 	=> 'member/profile',
                         'profile'   => $profile
@@ -68,7 +68,7 @@ class Member extends CI_Controller {
     public function event(){
         $data = [	'title' 	=> 'Event',
                     'content' 	=> 'member/events/event',
-                    'event'     => $this->db->get('event')->result_array()
+                    'event'     => $this->M_member->getEvent()
         ];
         $this->load->view('templates/wrapper', $data);
     }
@@ -78,7 +78,7 @@ class Member extends CI_Controller {
         $data = [
             'title'   => 'Preview Event',
             'content' => 'member/events/view-event',
-            'event'    => $this->db->get_where('event',['id' => $id])->row_array()
+            'event'    => $this->M_member->detailEvent($id)
         ];
         $this->load->view('templates/wrapper',$data);
     }
@@ -88,14 +88,14 @@ class Member extends CI_Controller {
         $data = [
             'title'   => 'Materi',
             'content' => 'member/materi/materi',
-            'materi'  => $this->db->get('materi')->result_array()
+            'materi'  => $this->M_member->getMateri()
         ];
         $this->load->view('templates/wrapper',$data);
     }
     // menampilkan isi tiap materi
     public function viewMateri(){
         $id = $this->uri->segment(3);
-        $materi = $this->db->get_where('materi',['id' => $id])->row_array();
+        $materi = $this->M_member->detailMateri($id);
         $data = [
             'title'   => 'Preview Materi',
             'file'    => $materi['file'],

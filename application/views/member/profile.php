@@ -82,6 +82,7 @@
                               type="file"
                               class="form-control"
                               name="image"
+                              accept="image/*"
                             />
                             <div class="invalid-feedback">
                               Please select the foto

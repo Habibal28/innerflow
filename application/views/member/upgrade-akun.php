@@ -12,56 +12,62 @@
             <h2 class="section-title">pilihan harga</h2>
             <p class="section-lead">Upgrade Akun ke VIP agar bisa mengakses lebih banyak menu</p>
             <div class="row">
-           
-              <!-- <div class="col-12 col-md-4 col-lg-4"> -->
-                <!-- <div class="pricing"> -->
-                  <!-- <div class="pricing-title"> -->
-                      <!-- Member -->
-                  <!-- </div> -->
-                  <!-- <div class="pricing-padding"> -->
-                    <!-- <div class="pricing-price"> -->
-                      <!-- <div>$0</div> -->
-                    <!-- </div> -->
-                    <!-- <div class="pricing-details"> -->
-                      <!-- <div class="pricing-item"> -->
-                        <!-- <div class="pricing-item-icon bg-danger text-white"><i class="fas fa-times"></i></div> -->
-                        <!-- <div class="pricing-item-label">Video Pembelajaran</div> -->
-                      <!-- </div> -->
-                      <!-- <div class="pricing-item"> -->
-                        <!-- <div class="pricing-item-icon bg-danger text-white"><i class="fas fa-times"></i></div> -->
-                        <!-- <div class="pricing-item-label">Grup VIP</div> -->
-                      <!-- </div> -->
-                      <!-- <div class="pricing-item"> -->
-                        <!-- <div class="pricing-item-icon"><i class="fas fa-check"></i></div> -->
-                        <!-- <div class="pricing-item-label">Trabar(Trading Bareng) Min 2x/Minggu</div> -->
-                      <!-- </div> -->
-                      <!-- <div class="pricing-item"> -->
-                        <!-- <div class="pricing-item-icon bg-danger text-white"><i class="fas fa-times"></i></div> -->
-                        <!-- <div class="pricing-item-label">Signal Setiap Hari</div> -->
-                      <!-- </div> -->
-                      <!-- <div class="pricing-item"> -->
-                        <!-- <div class="pricing-item-icon bg-danger text-white"><i class="fas fa-times"></i></div> -->
-                        <!-- <div class="pricing-item-label">Anabar(Analisa Bareng) Min 2x/Minggu</div> -->
-                      <!-- </div> -->
-                      <!-- <div class="pricing-item"> -->
-                        <!-- <div class="pricing-item-icon bg-danger text-white"><i class="fas fa-times"></i></div> -->
-                        <!-- <div class="pricing-item-label">Konsultasi Bersama Mentor Kapanpun</div> -->
-                      <!-- </div> -->
-                    <!-- </div> -->
-                  <!-- </div> -->
-                  <!-- <div class="pricing-cta"> -->
-                    <!-- <a href="#">Subscribe <i class="fas fa-arrow-right"></i></a> -->
-                  <!-- </div> -->
-                <!-- </div> -->
-              <!-- </div> -->
-              <div class="col-12 col-md-4 col-lg-4 ">
+            <div class="col-12 col-md-2 col-lg-2 "></div>
+             <div class="col-12 col-md-4 col-lg-4 ">
                 <div class="pricing pricing-highlight">
                   <div class="pricing-title">
                     Vip
                   </div>
                   <div class="pricing-padding">
                     <div class="pricing-price">
-                      <div>$0</div>
+                      <div>Free</div>
+                    </div>
+                    <div class="pricing-details">
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Video Pembelajaran</div>
+                      </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Grup VIP</div>
+                      </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Trabar(Trading Bareng) Min 2x/Minggu</div>
+                      </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Signal Setiap Hari</div>
+                      </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Anabar(Analisa Bareng) Min 2x/Minggu</div>
+                      </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon bg-danger"><i class="fas fa-times"></i></div>
+                        <div class="pricing-item-label">Konsultasi Bersama Mentor Kapanpun</div>
+                      </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon bg-danger"><i class="fas fa-times"></i></div>
+                        <div class="pricing-item-label">Memiliki Mentor Pribadi</div>
+                      </div>
+                    
+                        <a  data-toggle="modal" data-target="#exampleModal" class="rounded text-primary" style="cursor: pointer;">syarat & ketentuan</a>
+                    </div>
+                  </div>
+                  <div class="pricing-cta">
+                    <a href="https://bit.ly/3m1g1GH" target="_blank">Dapatkan <i class="fas fa-arrow-right"></i></a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-md-4 col-lg-4 ">
+                <div class="pricing pricing-highlight">
+                  <div class="pricing-title">
+                    Privat
+                  </div>
+                  <div class="pricing-padding">
+                    <div class="pricing-price">
+                      <div>Rp.2.000.000</div>
                     </div>
                     <div class="pricing-details">
                       <div class="pricing-item">
@@ -88,15 +94,20 @@
                         <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
                         <div class="pricing-item-label">Konsultasi Bersama Mentor Kapanpun</div>
                       </div>
+                      <div class="pricing-item">
+                        <div class="pricing-item-icon"><i class="fas fa-check"></i></div>
+                        <div class="pricing-item-label">Memiliki Mentor Pribadi</div>
+                      </div>
                     
                         <a  data-toggle="modal" data-target="#exampleModal" class="rounded text-primary" style="cursor: pointer;">syarat & ketentuan</a>
                     </div>
                   </div>
                   <div class="pricing-cta">
-                    <a href="https://bit.ly/3m1g1GH" target="_blank">Dapatkan <i class="fas fa-arrow-right"></i></a>
+                    <a id="tombol-bayar" data-harga="2000000" style="cursor: pointer;" >Dapatkan <i class="fas fa-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
+              <div class="col-12 col-md-2 col-lg-2 "></div>
             </div>
           </div>
         </section>
@@ -125,3 +136,9 @@
     </div>
   </div>
 </div>
+
+<!-- midtrans form snap -->
+<form id="payment-form" method="post" action="<?=base_url()?>snap/finish">
+   <input type="hidden" name="result_type" id="result-type" value=""></div>
+   <input type="hidden" name="result_data" id="result-data" value=""></div>
+ </form>

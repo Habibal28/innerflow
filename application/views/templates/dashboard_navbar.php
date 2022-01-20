@@ -13,8 +13,8 @@
         <ul class="navbar-nav navbar-right">
           </li>
           <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-            <img alt="image" src="<?=base_url()?>/assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div></a>
+            <img alt="image" src="<?=base_url('assets/img/foto-profile/').$this->session->userdata('image')?>" class="rounded-circle mr-1">
+            <div class="d-sm-none d-lg-inline-block"><?=$this->session->userdata('name')?></div></a>
             <div class="dropdown-menu dropdown-list dropdown-menu-right">
               <!-- <div class="dropdown-title">Logged in 5 min ago</div> -->
               <a href="<?=base_url('Member/Profile')?>" class="dropdown-item has-icon">

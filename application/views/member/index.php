@@ -19,7 +19,7 @@
                     <h4>Events</h4>
                   </div>
                   <div class="card-body">
-                  <?=$events['event']?>
+                  <?=$events?>
                   </div>
                 </div>
               </div>
@@ -34,7 +34,7 @@
                     <h4>Learnings</h4>
                   </div>
                   <div class="card-body">
-                    <?=$learnings['learning']?>
+                    <?=$learnings?>
                   </div>
                 </div>
               </div>

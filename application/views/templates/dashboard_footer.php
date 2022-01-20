@@ -34,7 +34,67 @@
   <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-  <script>
+<!-- midtrans -->
+<script type="text/javascript"
+          src="https://app.sandbox.midtrans.com/snap/snap.js"
+          data-client-key="SB-Mid-client-Pkk4V77AvPwjBrZ3"></script>
+  <script src="<?=base_url('assets/js/ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')?>"></script>
+
+<!-- Midtrans -->
+<script>
+    $('#tombol-bayar').click(function (event) {
+      var harga = $(this).data('harga');
+      event.preventDefault();
+      $(this).attr("disabled", "disabled");
+    
+    $.ajax({
+      url: '<?=base_url()?>snap/token',
+      cache: false,
+      data:{
+        harga:harga
+      },
+      success: function(data) {
+        //location = data;
+
+        console.log('token = '+data);
+        
+        var resultType = document.getElementById('result-type');
+        var resultData = document.getElementById('result-data');
+
+        function changeResult(type,data){
+          $("#result-type").val(type);
+          $("#result-data").val(JSON.stringify(data));
+          //resultType.innerHTML = type;
+          //resultData.innerHTML = JSON.stringify(data);
+        }
+
+        snap.pay(data, {
+          
+          onSuccess: function(result){
+            changeResult('success', result);
+            console.log(result.status_message);
+            console.log(result);
+            $("#payment-form").submit();
+          },
+          onPending: function(result){
+            changeResult('pending', result);
+            console.log(result.status_message);
+            $("#payment-form").submit();
+          },
+          onError: function(result){
+            changeResult('error', result);
+            console.log(result.status_message);
+            $("#payment-form").submit();
+          }
+        });
+      }
+    });
+  });
+</script>
+
+
+<script>
+
     // change role access
     $('.form-check-input').on('click', function(){
     const menuId = $(this).data('menu');
@@ -112,6 +172,7 @@ const myChart = new Chart(ctx, {
   });
 });
 
+// chart
 const ctx1 = document.getElementById('myChart1').getContext('2d');
 var temp1=[];
 var tes;

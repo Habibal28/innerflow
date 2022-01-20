@@ -18,26 +18,26 @@
               <div class="card-header">
                 <h4>Change Trabar & Anabar</h4>
               </div>
-              <?php echo form_open_multipart(base_url('Administrator/editTrabarAnabar/').$trabarAnabar[0]['id_trabarAnabar'], 'class="form-horizontal"');?>
+              <?php echo form_open_multipart(base_url('Administrator/editTrabarAnabar/').$trabarAnabar['id_trabarAnabar'], 'class="form-horizontal"');?>
               <div class="card-body">
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-12 col-lg-12">Title</label>
                   <div class="col-sm-12 col-md-12">
-                    <input type="text" name="title" value="<?=$trabarAnabar[0]['title']?>" class="form-control">
+                    <input type="text" name="title" value="<?=$trabarAnabar['title']?>" class="form-control">
                   </div>
                 </div>
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-12 col-lg-12">Description</label>
                   <div class="col-sm-12 col-md-12">
-                    <input type="text" name="Description" value="<?=$trabarAnabar[0]['description']?>" class="form-control">
+                    <input type="text" name="Description" value="<?=$trabarAnabar['description']?>" class="form-control">
                   </div>
                 </div>
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-12 col-lg-12">Status</label>
                   <div class="col-sm-12 col-md-12">
                     <select name="status" class="form-control selectric">
-                      <?php $status = ($trabarAnabar[0]['status']== 1)?'selected':''?>
-                      <?php $status = ($trabarAnabar[0]['status']== 0)?'selected':''?>
+                      <?php $status = ($trabarAnabar['status']== 1)?'selected':''?>
+                      <?php $status = ($trabarAnabar['status']== 0)?'selected':''?>
                       <option <?=$status?> value="1">Publish</option>
                       <option <?=$status?> value="0">Draft</option>
                     </select>
@@ -53,7 +53,7 @@
                 <div class="form-group row mb-4">
                   <label class="col-form-label text-md-left col-12 col-md-12 col-lg-12">Content</label>
                   <div class="col-sm-12 col-md-12">
-                    <textarea name="content" id="content" class="summernote-simple w-100"><?=$trabarAnabar[0]['content']?></textarea>
+                    <textarea name="content" id="content" class="summernote-simple w-100"><?=$trabarAnabar['content']?></textarea>
                   </div>
                 </div>
                 <div class="form-group row mb-4">

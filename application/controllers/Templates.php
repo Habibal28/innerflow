@@ -1,16 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Templates extends CI_Controller {
-    public function sidebar(){
-        $role = $this->session->userdata['role'];
-        $query = " SELECT lm.menu, lm.id
-            FROM access_menu as am 
-            JOIN list_menu as lm 
-            ON  lm.id = am.list_menu_id
-            WHERE am.role_id = $role
-            ";
-        $menu = $this->db->query($query)->result_array();
-        $this->load->view('templates/dashboard_sidebar');
+class Templates extends CI_Controller { 
+    public function __construct()
+    {
+        parent::__construct();// you have missed this line. 
+        $this->load->library('session');  
+        $this->load->model('M_templates');
+    }
+    public function index($role){
+        if($role == 3){
+            $query = "SELECT * FROM sub_menu WHERE role >=$role";
+        }else{
+            $query = "SELECT * FROM sub_menu WHERE role =$role";
+        }
+        // return  $this->db->query($query)->result_array();
     }
 }

@@ -1,5 +1,6 @@
 let flashdata = $(".flashdata").data("flashdata");
 let halaman = $(".flashdata").data("halaman");
+
 if (flashdata) {
 	swal.fire({
 		title: "Data " + halaman,

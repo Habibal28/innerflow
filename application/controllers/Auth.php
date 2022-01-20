@@ -7,6 +7,7 @@ class Auth extends CI_Controller {
     {
         parent::__construct();
         $this->load->library('form_validation');
+        $this->load->model('M_auth');
     }
 
 	public function index()
@@ -30,7 +31,7 @@ class Auth extends CI_Controller {
     private function login(){
         $email = $this->input->post('email');
         $password = $this->input->post('password');
-        $data = $this->db->get_where('user',['email' =>$email])->row_array();
+        $data = $this->M_auth->detailUser($email);
         if($data){
             //jika datanya ada
             if($data['is_active'] == 1){
@@ -41,8 +42,11 @@ class Auth extends CI_Controller {
                    
                        $user = [
                            'email' => $data['email'],
-                           'role' => $data['role']
+                           'role' => $data['role'],
+                           'name' => $data['name'],
+                           'image' => $data['image']
                        ];
+                    //    var_dump($user);die;
                        $this->session->set_userdata($user);
                
                        if($data['role'] == 1){
@@ -71,7 +75,10 @@ class Auth extends CI_Controller {
     }
 
     public function register(){
-        $this->load->view('templates/auth_header');
+        $data = [
+            'halaman' => 'Register Account'
+        ];
+        $this->load->view('templates/auth_header',$data);
         $this->load->view('auth/register');
         $this->load->view('templates/auth_footer');
     }
@@ -107,9 +114,8 @@ class Auth extends CI_Controller {
                     'github' => '',
                     'instagram' => '',
                 ];
-                $this->db->insert('sosial_media',$sosial_media);
-                $query = "SELECT id_sosial_media as id FROM sosial_media ORDER BY id DESC LIMIT 1";
-                $sosial_media = $this->db->query($query)->row_array();
+                $this->M_auth->tambahSosialMedia($sosial_media);
+                $sosial_media = $this->M_auth->detailSosialMedia();
                 // data user
                 $data = [
                     'name' => $this->input->post('name'),
@@ -118,7 +124,7 @@ class Auth extends CI_Controller {
                     'date_created' => date('Y-m-d'), 
                     'image' => 'avatar-1.png', 
                     'sosial_media_id' => $sosial_media['id'], 
-                    'role' => 3, 
+                    'role' => 2, 
                     'is_active' => 0, 
                 ];
                 // token verify
@@ -129,9 +135,9 @@ class Auth extends CI_Controller {
                     'date_created' => time()
                 ];
                 
-                $this->db->insert('user_token', $user_token);
+                $this->M_auth->tambahUserToken($user_token);
                 $this->_sendEmail($user_token,'verify');
-                $this->db->insert('user',$data);
+                $this->M_auth->tambahUser($data);
                 
                 $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
                 Your account has been successfully registered. <b> Please check Email And Activation </b>
@@ -165,7 +171,7 @@ class Auth extends CI_Controller {
             $this->email->message('click to verifikasi email :  <a href ="' . base_url() . 'Auth/verify?email=' . $user_token['email'] . '&token=' . $user_token['token'] .'" >here!</a>  ');
             
         }else if($type =='forgot password'){
-            $this->email->subject('Verifikasi Email');
+            $this->email->subject('forget password');
             $this->email->message(' Click to Forget Password :  <a href ="' . base_url() . 'Auth/newPassword?email=' . $user_token['email'] . '&token=' . $user_token['token'] .'" >here!</a>  ');
         }
         
@@ -181,14 +187,12 @@ class Auth extends CI_Controller {
     public function verify(){
         $email = $this->input->get('email');
         $token = $this->input->get('token');
-        $data = $this->db->get_where('user_token' , ['email' => $email])->row_array();
+        $data = $this->M_auth->detailUserToken($email);
         if($token == $data['token'] ){
             if(time() - $data['date_created'] <  60*60*60){
-                $this->db->set('is_active' , 1);
-                $this->db->where('email',$email);
-                $this->db->update('user');
+                $this->M_auth->updateUser($email);
                 // hapus user token
-                $this->db->delete('user_token',['token' => $token]);
+                $this->M_auth->hapusToken($token);
                 
                 $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
                 Your Account has been Active. Please Login!
@@ -199,7 +203,7 @@ class Auth extends CI_Controller {
                 $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
                 Token is Expired!
                 </div>');
-                $this->db->delete('user_token',['email' => $email]);
+                $this->M_auth->hapusUserToken($email);
                 redirect(base_url('Auth'));      
             }
             
@@ -207,23 +211,97 @@ class Auth extends CI_Controller {
             $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
             Wrong Token!
                 </div>');
-                $this->db->delete('user_token',['email' => $email]);
+                $this->M_auth->hapusUserToken($email);
                 redirect(base_url('Auth'));
         }
     }
 
+    public function forgetPassword(){
+        if(isset($_POST['submit'])){
+            $token = base64_encode(random_bytes(32));
+            $user_token =[
+                'email' =>$this->input->post('email'),
+                'token' => $token,
+                'date_created' => time()
+            ];
+            $this->M_auth->tambahUserToken($user_token);
+            $this->_sendEmail($user_token,'forgot password');
+                            
+            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+            Please check Email And make a new password !
+            </div>');
+            redirect(base_url('Auth/forgetPassword'));      
+        }else{
+            $data = [
+                'halaman' => 'Forget Password'
+            ];
+            $this->load->view('templates/auth_header',$data);
+            $this->load->view('auth/forget-password');
+            $this->load->view('templates/auth_footer');
+        }
+    }
+    public function newPassword(){
+        if(isset($_POST['submit'])){
+            $email = $this->input->post('email');
+            $token = $this->input->post('token');
+            $password = $this->input->post('password');
+            // update password
+            $this->M_auth->editPassword($email,$password);
+            // hapus user token
+            $this->M_auth->hapusToken($token);
+            
+            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+            Your Password has been Change. Please Login!
+            </div>');
+            redirect(base_url('Auth'));      
+        }else{
+            $email = $this->input->get('email');
+            $token = $this->input->get('token');
+            // var_dump($token);
+            $data = $this->M_auth->detailUserToken($email);
+            
+            if($token == $data['token'] ){
+                if(time() - $data['date_created'] <  60*60*60){
+                    $data = [
+                        'halaman' => 'New Password',
+                        'email'   => $email,
+                        'token'   => $token
+                    ];
+                    $this->load->view('templates/auth_header',$data);
+                    $this->load->view('auth/new-password');
+                    $this->load->view('templates/auth_footer');
+                }else{
+                    $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                    Token is Expired!
+                    </div>');
+                    $this->M_auth->hapusUserToken($email);
+                    redirect(base_url('Auth'));      
+                }
 
+            }else{
+                $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                Wrong Token!
+                    </div>');
+                    $this->M_auth->hapusUserToken($email);
+                    redirect(base_url('Auth'));
+            }
 
-
-
-
+        }
+    }
 
     public function logout(){
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role_id');
-        $this->session->set_flashdata('notificationSuccess','<div class="alert alert-success" role="alert">
-        Your account successfully logged out!
+        $uri = $this->uri->segment(3);
+        if($uri == 'pembayaran'){
+            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+            please loggin Again!
             </div>');
+        }else{
+            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+            Your account successfully logged out!
+            </div>');
+        }
         redirect(base_url('Auth'));
     }
 }

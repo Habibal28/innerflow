@@ -19,7 +19,7 @@
                     <h4>Members</h4>
                   </div>
                   <div class="card-body">
-                    <?=$members['member']?>
+                    <?=$result['members']['member']?>
                   </div>
                 </div>
               </div>
@@ -34,7 +34,7 @@
                     <h4>Events</h4>
                   </div>
                   <div class="card-body">
-                   <?=$events['event']?>
+                   <?=$result['events']['event']?>
                   </div>
                 </div>
               </div>
@@ -49,7 +49,7 @@
                     <h4>Learnings</h4>
                   </div>
                   <div class="card-body">
-                  <?=$learnings['learning']?>
+                  <?=$result['learnings']['learning']?>
                   </div>
                 </div>
               </div>

@@ -40,7 +40,7 @@
                           <td><?=$i?></td>
                           <td class="text-primary"><?=$row['title']?>
                             <div class="table-links">
-                              <a href="<?=base_url('Member/viewTrabarAnabar/').$row['id_trabarAnabar']?>">View</a>
+                              <a href="<?=base_url('Vip/viewTrabarAnabar/').$row['id_trabarAnabar']?>">View</a>
                               <div class="bullet"></div>
                               <a href="<?=base_url('Administrator/editTrabarAnabar/').$row['id_trabarAnabar'] ?>">Edit</a>
                               <div class="bullet"></div>
@@ -56,7 +56,7 @@
                               <div class="d-inline-block ml-1"><?=$row['name']?></div>
                             </a>
                           </td>
-                          <td><?=date('d F Y',$row['date_created'])?></td>
+                          <td><?=$row['date_created']?></td>
                           
                           <?php $status = ( $row['status'] == 1 ) ? 'publish':'draft' ?>
                           <?php $color = ( $row['status'] == 1 ) ? 'primary':'danger' ?>
